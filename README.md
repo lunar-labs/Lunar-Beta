@@ -1,6 +1,6 @@
 # Lunar Beta Discord Bot
 
-An beta development version of the [Lunar](https://github.com/lunar-labs/Lunar-Bot) Discord Bot.
+This is a beta development version of the [Lunar](https://github.com/lunar-labs/Lunar-Bot) Discord Bot.
 
 ## Warning
 
