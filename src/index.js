@@ -1,12 +1,15 @@
 const Discord = require("discord.js");
-const Enmap = require("enmap");
 const fs = require("fs");
-const client = new Discord.Client();
+const mysql = require("mysql2");
+const Enmap = require("enmap");
+const client = new Discord.Client({
+  shardId: process.argv[1],
+  shardCount: process.argv[2],
+  fetchAllMembers: true
+});
 const config = require("./config.json");
 
-// We also need to make sure we're attaching the config to the CLIENT so it's accessible everywhere!
 client.config = config;
-const mysql = require("mysql2");
 client.con = mysql.createConnection({
     host: client.config.mysqlh,
      user: client.config.mysqlu,
@@ -20,7 +23,6 @@ fs.readdir("./events/", (err, files) => {
     client.on(eventName, event.bind(null, client));
   });
 });
-
 client.commands = new Enmap();
 
 fs.readdir("./commands/", (err, files) => {
@@ -33,5 +35,6 @@ fs.readdir("./commands/", (err, files) => {
     client.commands.set(commandName, props);
   });
 });
+
 
 client.login(config.token);
