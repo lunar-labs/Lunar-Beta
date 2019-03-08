@@ -1,5 +1,12 @@
+var con = require("../modules/functions.js");
 module.exports = (client, guild) => {
     console.log("log", `Guild Leave: ${guild.name} (${guild.id}) with ${guild.memberCount}`, "JOINED");
     let guildid = `${guild.id}`;
-    client.guildjoinadd(guildid, guildname, guildcreatedAt, guildownerID, guildowner);
+    con.select('DELETE FROM guilds WHERE `guildid`="'+guildid+'"', function(rows) {
+        console.log("Guild Left successfully");
+    
+      
+  
+    });
+    
   };

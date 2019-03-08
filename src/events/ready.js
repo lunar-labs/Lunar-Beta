@@ -1,6 +1,5 @@
 module.exports = (client, guild) => {
-    console.log("log", "Ready!");
-    client.user.setPresence({ activity: { name: 'Working On Beta!' }, status: 'idle' })
-    .then(console.log)
+    client.user.setPresence({ activity: { name: '!|Working On Beta!' }, status: 'idle' })
+    .then(console.log("Ready!"))
     .catch(console.error);
   };
