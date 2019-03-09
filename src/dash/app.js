@@ -1,4 +1,6 @@
 const express = require('express');
+var https = require('https');
+var fs = require('fs');
 const app = express();
 
 let port = require('./config.json').port || 3000;
@@ -16,4 +18,8 @@ app.use(session({
 }));
 require('./router')(app);
 
-app.listen(port, () => console.info(`Listening on port ${port}`));
+https.createServer({
+    key: fs.readFileSync('encryption/private.key'),
+    cert: fs.readFileSync('encryption/lunar-labs_dev.crt')
+  }, app)
+  .listen(port, () => console.info(`Listening on port ${port}`));

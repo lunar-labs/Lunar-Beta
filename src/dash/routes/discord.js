@@ -8,7 +8,7 @@ const forceAuth = (req, res, next) => {
     if (!req.session.user) return res.redirect('/authorize')
     else return next();
 }
-
+module.exports = (client) => {
 router.get('/', (req, res) => {
     if (req.session.user) return res.redirect('/');
 
@@ -46,6 +46,7 @@ router.get('/callback', (req, res) => {
         .then(userResponse => {
             userResponse.tag = `${userResponse.username}#${userResponse.discriminator}`;
             userResponse.avatarURL = userResponse.avatar ? `https://cdn.discordapp.com/avatars/${userResponse.id}/${userResponse.avatar}.png?size=1024` : null;
+            userResponse.guilds = userResponse.guilds;
 
             req.session.user = userResponse;
             res.redirect('/');
@@ -56,5 +57,5 @@ router.get('/callback', (req, res) => {
 router.get('/logout', forceAuth, (req, res) => {
     req.session.destroy();
 });
-
+};
 module.exports = router;
