@@ -2,29 +2,34 @@ var con = require("../modules/functions.js");
 module.exports = (client, message) => {
   // Ignore all bots
   let guildid = `${message.guild.id}`;
-  con.select('SELECT 1 FROM guilds WHERE "' + guildid + '"', function (error, results, fields) {
+  con.select('SELECT EXISTS( SELECT 1 FROM guilds WHERE "' + guildid + '")', function (error, rows) {
     if (error) {
-      console.log(error);
-    }
-    if (results > 0) {
-      console.log('fail');
-    } else {
-
-      console.log('insert');
-
-      let guildid = `${message.guild.id}`;
-      let guildname = `${message.guild.name}`;
-      let guildcreatedAt = `${message.guild.createdAt}`;
-      let guildownerID = `${message.guild.ownerID}`;
-      let guildowner = `${message.guild.owner}`;
-      client.guildjoinadd(guildid, guildname, guildcreatedAt, guildownerID, guildowner);
-
-
-
-    }
+      //console.log(error);
+    }else{
+        if (rows && rows.length ) {
+            //console.log('Yay');
+            // do something with your row variable
+        } else {
+            //console.log('No case row was found :( !');
+            let guildid = `${message.guild.id}`;
+            let guildname = `${message.guild.name}`;
+            let guildcreatedAt = `${message.guild.createdAt}`;
+            let guildownerID = `${message.guild.ownerID}`;
+            let guildowner = `${message.guild.owner}`;
+            client.guildjoinadd(guildid, guildname, guildcreatedAt, guildownerID, guildowner);
+        }    
+      }   
   });
   if (message.author.bot) return;
+    // if(message.guild){
+    //   con.select('SELECT * FROM guild-level WHERE `user`="'+message.users.id+'and `guildid` ='+ message.guild.id, function(error, rows){
+    //     if(!rows){
+    //       try{
 
+    //       }
+    //     }
+    //   });
+    // }
 
   con.select('SELECT prefix FROM guilds WHERE `guildid`="' + guildid + '"', function (rows) {
 

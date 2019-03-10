@@ -2,21 +2,37 @@ const express = require('express');
 var https = require('https');
 var fs = require('fs');
 const app = express();
+var config = require('./config.json');
+const oAuthClient = require('disco-oauth');
+const client = new oAuthClient(
+    config.clientId,               // The Client ID
+     config.clientSecret           // The Client Secret
+) // Initiate the client.
 
-let port = require('./config.json').port || 3000;
+client.setScopes(['identify','guilds'])             // Set the scopes
+client.setRedirect('https://lunar-labs.dev:5134/login') // Set the redirect URI
+let port = config.port || 3000;
 app.set('port', port);
 
-const session = require('express-session');
+app.get('/', (req, res)=>{
+    res.send(`<a href="${client.getAuthCodeLink()}">Click here to get started</a>`) // Getting the auth code link
+})
 
-app.set('view engine', 'ejs');
-app.use(express.static('static'));
-app.use(session({
-    secret: '48738924783748273742398747238',
-    resave: false,
-    saveUninitialized: false,
-    expires: 604800000,
-}));
-require('./router')(app);
+app.get('/login', async (req, res)=>{
+    let code = req.query.code;
+    try{
+        let key = await client.getAccess(code) // Gets the access token
+
+        console.log(client.getAccessObject(key))    // Get the access token response (really not recommended)
+
+        console.log(await client.getAuthorizedUser(key)) // Gets /users/@me (will log in console)
+        res.send(await client.getAuthorizedUserGuilds(key))  // Gets /users/@me/guilds (shows in browser) (pretty ugly)
+
+    }
+    catch(error){
+        console.log(error)
+    }
+})
 
 https.createServer({
     key: fs.readFileSync('encryption/private.key'),
