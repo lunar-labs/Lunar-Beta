@@ -22,7 +22,7 @@ exports.run = async (client, message, [user, ...rolename]) => {
                                 if(!member){
                                     return message.channel.send(`Please Try Again. I Can't Find ${user}`)
                                 }
-                                 member.roles.add(role);
+                                 member.roles.remove(role);
                              return message.channel.send("Success!");
                      }    
                  }else if(message.member.roles.some(r=> usrole.includes(r.name)) ) {                   
@@ -35,7 +35,7 @@ exports.run = async (client, message, [user, ...rolename]) => {
                     if(!member){
                         return message.channel.send(`Please Try Again. I Can't Find ${user}`)
                     }                    
-                     member.roles.add(role);
+                     member.roles.remove(role);
                      return message.channel.send("Success!");
                     } else {  
 
@@ -48,8 +48,8 @@ exports.run = async (client, message, [user, ...rolename]) => {
 };
 module.exports.help = {
     //Update this Section
-    name: "addrole",
-    category: "moderation",
-    description: "Add a Role to A User",
-    usage: "addrole @user rolename"
+    name: "removerole",
+    category: "misc",
+    description: "remove roles from a user",
+    usage: "removerole @user role"
 }
