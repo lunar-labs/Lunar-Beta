@@ -1,36 +1,45 @@
 //Basic Command Template
 var db = require("../modules/functions.js");
-exports.run = async (client, message, args) => {
+exports.run = async (client, message, [user, ...rolename]) => {
     if(message.guild.me.hasPermission("SEND_MESSAGES")){
-    let guildid = `${message.guild.id}`;        
-    // let member = await message.guild.members.fetch(message.author)
-    // let perms = await member.permissions;
-    // let addroleperm = await perms.has("MANAGE_ROLES_OR_PERMISSIONS");
-            db.cmd('SELECT * FROM permoveride WHERE guildid ="' + guildid + '" and command = "addrole"' , function(rows, fields) {
+    let guildid = `${message.guild.id}`;  
+    let userperm = message.member.hasPermission("MANAGE_ROLES_OR_PERMISSIONS");     
+               db.cmd('SELECT * FROM permoveride WHERE guildid ="' + guildid + '" and command = "addrole"' , function(rows, fields) {
                                //Change command = "ping" to Command Name              
                 const usersRows = JSON.parse(JSON.stringify(rows));
                 var usrole = [];
                 for(var k in usersRows) {                    
                     usrole.push(usersRows[k].role);
                  }                 if(usrole.length === 0){  
-                                 
-                                let rolename = args.slice(1).join(" ");                      
+                     if(!userperm){
+                         return message.channel.send("You Don't Have The Proper Permission To Do this!");
+                     }else{
                                 const member =  message.mentions.members.first();
                                 const role = message.guild.roles.find(r => r.name === `${rolename}`);
-                                console.log(member);
-                                console.log(rolename);
+                                if(!role){
+                                    return message.channel.send("That Role Doesn't Exist!");
+                                }
+                                if(!member){
+                                    return message.channel.send(`Please Try Again. I Can't Find ${user}`)
+                                }
                                  member.roles.add(role);
-                                 message.channel.send("Success!");
-                                               
-                    
-                    console.error("1");
-                   
-                 }else if(message.member.roles.some(r=> usrole.includes(r.name)) ) {
-                        console.error("2");
-                        return  message.channel.send("pong!").catch(console.error);
+                             return message.channel.send("Success!");
+                     }    
+                 }else if(message.member.roles.some(r=> usrole.includes(r.name)) ) {                   
+                     
+                    const member =  message.mentions.members.first();
+                    const role = message.guild.roles.find(r => r.name === `${rolename}`);
+                    if(!role){
+                        return message.channel.send("That Role Doesn't Exist!");
+                    }
+                    if(!member){
+                        return message.channel.send(`Please Try Again. I Can't Find ${user}`)
+                    }                    
+                     member.roles.add(role);
+                     return message.channel.send("Success!");
                     } else {  
 
-                       console.error("3"); 
+                       
                         return message.channel.send("You Shall Not Pass!");
                     
                   }
