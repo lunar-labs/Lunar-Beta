@@ -18,9 +18,9 @@ require("./modules/functions.js").default(client);
 readdir("./src/events/", (err, files) => {
   if (err) return console.error(err);
   files.forEach(file => {
-    const event = require(`./events/${file}`);
+    const events = require(`./events/${file}`);
     let eventName = file.split(".")[0];
-    client.on(eventName, event.bind(null, client));
+    client.on(eventName, events.bind(null, client));
   });
 });
 client.commands = new Enmap();
