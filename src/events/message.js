@@ -1,5 +1,5 @@
 var con = require("../modules/functions.js");
-module.exports = (client, message) => {
+module.exports = async (client, message) => {
   // Ignore all bots
   let guildid = `${message.guild.id}`;
   con.select('SELECT EXISTS( SELECT 1 FROM guilds WHERE "' + guildid + '")', function (error, rows) {
