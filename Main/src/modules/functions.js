@@ -1,4 +1,4 @@
-module.exports = (client) => {
+export default (client) => {
   const mysql = require("mysql");
 // var con = mysql.createConnection({
 //     host: client.config.mysqlh,

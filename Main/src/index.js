@@ -14,7 +14,7 @@ client.con = createConnection({
     host: client.config.mysqlh,
      user: client.config.mysqlu,
   password: client.config.mysqlp, database: client.config.mysqldb, port: client.config.mysqlpor});
-require("./modules/functions.js")(client);
+require("./modules/functions.js").default(client);
 readdir("./src/events/", (err, files) => {
   if (err) return console.error(err);
   files.forEach(file => {

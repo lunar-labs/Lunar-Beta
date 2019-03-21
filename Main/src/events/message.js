@@ -1,8 +1,8 @@
-var con = require("../modules/functions.js");
-module.exports = async (client, message) => {
+import { select } from "../modules/functions.js";
+export default async (client, message) => {
   // Ignore all bots
   let guildid = `${message.guild.id}`;
-  con.select('SELECT EXISTS( SELECT 1 FROM guilds WHERE "' + guildid + '")', function (error, rows) {
+  select('SELECT EXISTS( SELECT 1 FROM guilds WHERE "' + guildid + '")', function (error, rows) {
     if (error) {
       //console.log(error);
     }else{
@@ -31,7 +31,7 @@ module.exports = async (client, message) => {
     //   });
     // }
 
-  con.select('SELECT prefix FROM guilds WHERE `guildid`="' + guildid + '"', function (rows) {
+  select('SELECT prefix FROM guilds WHERE `guildid`="' + guildid + '"', function (rows) {
 
     const prefix = `${rows[0].prefix}`;
     // Ignore messages not starting with the prefix (in config.json)
