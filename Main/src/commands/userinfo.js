@@ -1,5 +1,5 @@
-const { Client, MessageEmbed } = require('discord.js');
-exports.run = async (client, message, args) => {
+import { Client, MessageEmbed } from 'discord.js';
+export async function run(client, message, args) {
     const member = message.guild.member(message.mentions.users.first() || message.guild.members.get(args[0]));
     const members = message.mentions.users.first();
     const embed = new MessageEmbed()
@@ -17,8 +17,8 @@ exports.run = async (client, message, args) => {
       .setDescription('Heres the Basic Info You Asked For');
     // Send the embed to the same channel as the message
     await message.channel.send(embed);
-};
-exports.help = {
+}
+export const help = {
     name: "userinfo",
     category: "misc",
     description: "Grab Information about a User",

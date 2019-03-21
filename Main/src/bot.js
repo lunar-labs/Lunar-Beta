@@ -1,7 +1,7 @@
-const config = require('./config.json');
-const { ShardingManager } = require('discord.js');
+import { token as _token } from './config.json';
+import { ShardingManager } from 'discord.js';
 const shard = new ShardingManager('./index.js', {
-  token: config.token,
+  token: _token,
   autoSpawn: true
 });
 shard.on('message', (shard, message) => {

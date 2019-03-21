@@ -1,6 +1,6 @@
 //Basic Command Template
-var db = require("../modules/functions.js");
-exports.run = (client, message, [user, ...reason]) => {
+import { cmd } from "../modules/functions.js";
+export function run(client, message, [user, ...reason]) {
     if(message.guild.me.hasPermission("BAN_MEMBERS")){
     let guildid = `${message.guild.id}`;  
     let userperm = message.member.hasPermission("BAN_MEMBERS");  
@@ -20,7 +20,7 @@ exports.run = (client, message, [user, ...reason]) => {
                return message.channel.send("Sorry I Can't Do That");
            }
         }     
-               db.cmd('SELECT * FROM permoveride WHERE guildid ="' + guildid + '" and command = "ban"' , function(rows, fields) {
+               cmd('SELECT * FROM permoveride WHERE guildid ="' + guildid + '" and command = "ban"' , function(rows, fields) {
                                //Change command = "ping" to Command Name              
                 const usersRows = JSON.parse(JSON.stringify(rows));
                 var usrole = [];
@@ -41,9 +41,9 @@ exports.run = (client, message, [user, ...reason]) => {
                   }
                 });
             }
-};
+}
 
-module.exports.help = {
+export const help = {
     //Update this Section
     name: "ban",
     category: "moderation",

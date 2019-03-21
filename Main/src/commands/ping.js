@@ -1,9 +1,9 @@
 //Basic Command Template
-var db = require("../modules/functions.js");
-exports.run = (client, message, args) => {
-    if(member.guild.me.hasPermission("SEND_MESSAGES")){
+import { cmd } from "../modules/functions.js";
+export function run(client, message, args) {
+    if(message.member.guild.me.hasPermission("SEND_MESSAGES")){
     let guildid = `${message.guild.id}`;
-            db.cmd('SELECT * FROM permoveride WHERE guildid ="' + guildid + '" and command = "ping"' , function(rows, fields) {
+            cmd('SELECT * FROM permoveride WHERE guildid ="' + guildid + '" and command = "ping"' , function(rows, fields) {
                 //Change command = "ping" to Command Name              
                 const usersRows = JSON.parse(JSON.stringify(rows));
                 var usrole = [];
@@ -22,8 +22,8 @@ exports.run = (client, message, args) => {
                     }
                 });
             }
-};
-module.exports.help = {
+}
+export const help = {
     //Update this Section
     name: "ping",
     category: "misc",

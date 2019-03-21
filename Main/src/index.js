@@ -1,21 +1,21 @@
-const Discord = require("discord.js");
-const fs = require("fs");
-const mysql = require("mysql2");
-const Enmap = require("enmap");
-const client = new Discord.Client({
+import { Client } from "discord.js";
+import { readdir } from "fs";
+import { createConnection } from "mysql2";
+import Enmap from "enmap";
+const client = new Client({
   shardId: process.argv[1],
   shardCount: process.argv[2],
   fetchAllMembers: true
 });
-const config = require("./config.json");
+import config, { token } from "./config.json";
 
 client.config = config;
-client.con = mysql.createConnection({
+client.con = createConnection({
     host: client.config.mysqlh,
      user: client.config.mysqlu,
   password: client.config.mysqlp, database: client.config.mysqldb, port: client.config.mysqlpor});
 require("./modules/functions.js")(client);
-fs.readdir("./events/", (err, files) => {
+readdir("./src/events/", (err, files) => {
   if (err) return console.error(err);
   files.forEach(file => {
     const event = require(`./events/${file}`);
@@ -25,7 +25,7 @@ fs.readdir("./events/", (err, files) => {
 });
 client.commands = new Enmap();
 
-fs.readdir("./commands/", (err, files) => {
+readdir("./src/commands/", (err, files) => {
   if (err) return console.error(err);
   files.forEach(file => {
     if (!file.endsWith(".js")) return;
@@ -37,4 +37,4 @@ fs.readdir("./commands/", (err, files) => {
 });
 
 
-client.login(config.token);
+client.login(token);
