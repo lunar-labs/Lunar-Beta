@@ -4,7 +4,7 @@ export async function run(client, message, [user, ...rolename]) {
     if(message.guild.me.hasPermission("MANAGE_ROLES_OR_PERMISSIONS")){
     let guildid = `${message.guild.id}`;  
     let userperm = message.member.hasPermission("MANAGE_ROLES_OR_PERMISSIONS");     
-               cmd('SELECT * FROM permoveride WHERE guildid ="' + guildid + '" and command = "addrole"' , function(rows, fields) {
+               cmd('SELECT * FROM permoveride WHERE guildid ="' + guildid + '" and command = "removerole"' , function(rows, fields) {
                                //Change command = "ping" to Command Name              
                 const usersRows = JSON.parse(JSON.stringify(rows));
                 var usrole = [];

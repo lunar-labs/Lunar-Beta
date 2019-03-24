@@ -12,7 +12,7 @@ const client = new oAuthClient(
 ) // Initiate the client.
 app.set('view engine', 'ejs');
 client.setScopes(['identify','guilds'])             // Set the scopes
-client.setRedirect('https://lunar-labs.dev:5134/login') // Set the redirect URI
+client.setRedirect('https://lunar-labs.dev:443/login') // Set the redirect URI
 let port = config.port || 3000;
 app.set('port', port);
 
