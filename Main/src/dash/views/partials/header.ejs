@@ -17,6 +17,9 @@
   </ul>
   <span class="navbar-text">
   <ul class="navbar-nav mr-auto">
+  <% if(link === "Logout"){%>
+  <li class="nav-item"><a class="nav-link" href="#">Welcome Back <%= username%></a></li>
+  <%}%>
   <li class="nav-item">
       <a class="nav-link" href="<%=login%>"><%=link%></a>
     </li>

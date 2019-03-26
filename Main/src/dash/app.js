@@ -46,7 +46,7 @@ app.get('/', (req, res)=>{
     const loginlink = `${client.getAuthCodeLink()}`;
     res.render('pages/index', {login:loginlink, link: "Login"});
     }else{
-        res.render('pages/index', {login: '/logout', link: "logout"})
+        res.render('pages/index', {login: '/logout', link: "Logout", username: req.session.userdata.username + "#"+req.session.userdata.discriminator})
     }   
 });
 app.get('/about', function(req, res){
@@ -75,7 +75,8 @@ app.get('/home', async (req, res)=>{
     if(!req.session.guilddata){
         res.redirect('/login');
     }else{    
-    res.render('pages/home.ejs',{user: req.session.userdata, guilds: req.session.guilddata, login: '/logout', link: "logout"})
+    res.render('pages/home.ejs',{user: req.session.userdata, guilds: req.session.guilddata, login: '/logout', link: "Logout", username:req.session.userdata.username + "#"+req.session.userdata.discriminator})
+    //res.send(req.session.guilddata);
     }
 });
 app.get('/logout', async (req, res)=>{
